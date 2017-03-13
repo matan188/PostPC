@@ -1,5 +1,6 @@
 package com.example.sharonaharoni.simplechat;
 
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class MainActivity extends AppCompatActivity {
-
+    static final String STATE_LIST = "stringList";
     private EditText msgBox;
     private ArrayList<String> msgList;
     private ArrayAdapter<String> adapter;
@@ -25,16 +26,19 @@ public class MainActivity extends AppCompatActivity {
         /* List View */
         msgBox  = (EditText) findViewById(R.id.messageBox);
         msgList = new ArrayList<String>();
+        if (savedInstanceState != null) {
+            msgList = savedInstanceState.getStringArrayList(STATE_LIST);
+        }
         adapter  = new ArrayAdapter<String>(this, R.layout.list_layout, R.id.msg, msgList);
 
         final Button sendButton = (Button) findViewById(R.id.sendButton);
 
 
-        msgList.add("Test");
-
         ListView myFirstListView = (ListView) findViewById( R.id.myFirstListView);
 
         myFirstListView.setAdapter(adapter);
+
+
 
 
         sendButton.setOnClickListener(new View.OnClickListener() {
@@ -48,4 +52,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putStringArrayList(STATE_LIST, msgList);
+
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
 }
