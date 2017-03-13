@@ -25,10 +25,14 @@ public class MainActivity extends AppCompatActivity {
 
         /* List View */
         msgBox  = (EditText) findViewById(R.id.messageBox);
-        msgList = new ArrayList<String>();
+
+        /* Reinitialize list from screen rotation, else new list */
         if (savedInstanceState != null) {
             msgList = savedInstanceState.getStringArrayList(STATE_LIST);
+        } else {
+            msgList = new ArrayList<String>();
         }
+
         adapter  = new ArrayAdapter<String>(this, R.layout.list_layout, R.id.msg, msgList);
 
         final Button sendButton = (Button) findViewById(R.id.sendButton);
@@ -53,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
+    /* Save list data when screen rotates */
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putStringArrayList(STATE_LIST, msgList);
